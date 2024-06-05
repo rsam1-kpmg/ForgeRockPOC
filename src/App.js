@@ -1,24 +1,36 @@
-import logo from './logo.svg';
+
 import './App.css';
+import Home from "./Page/Home";
+import Login from "./Page/Login";
+import { Route,Routes, BrowserRouter } from "react-router-dom"
+import { AppContext, useGlobalStateMgmt } from './global-state';
+import './Styles/index.scss';
 
 function App() {
+  let isAuthenticated;
+  const prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const email = window.sessionStorage.getItem('sdk_email');
+  const username = window.sessionStorage.getItem('sdk_username');
+  const rootEl = document.getElementById('root');
+  
+  const stateMgmt = useGlobalStateMgmt({
+    email,
+    isAuthenticated,
+    prefersDarkTheme,
+    username,
+  });
+
+  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContext.Provider value={stateMgmt}>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="login" element={<Login />}></Route>
+      </Routes>
+    </BrowserRouter>
+    </AppContext.Provider>
   );
 }
 
