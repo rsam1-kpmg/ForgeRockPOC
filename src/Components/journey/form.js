@@ -17,6 +17,7 @@ import Text from '../Text';
 import Unknown from '../Unknown';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../global-state';
+import Redirect from '../Redirect';
 
 /**
  * @function Form - React component for managing the user authentication journey
@@ -71,6 +72,8 @@ export default function Form() {
             return <Text callback={cb} inputName={name} key='username' />;
           case 'PasswordCallback':
             return <Password callback={cb} inputName={name} key='password' />;
+          case 'RedirectCallback':
+            return <Redirect callback={cb} key='redirect' />;
           default:
            // If current callback is not supported, render a warning message
            return <Unknown callback={cb} key={`unknown-${idx}`} />;
