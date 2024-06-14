@@ -2,6 +2,7 @@
 import './App.css';
 import Home from "./Page/Home";
 import Login from "./Page/Login";
+import Register from './Page/Register';
 import { Route,Routes, BrowserRouter } from "react-router-dom"
 import { AppContext, useGlobalStateMgmt } from './global-state';
 import './Styles/index.scss';
@@ -28,6 +29,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="login" element={<Login />}></Route>
+        <Route path="register" element={<Register />}></Route>
       </Routes>
     </BrowserRouter>
     </AppContext.Provider>
