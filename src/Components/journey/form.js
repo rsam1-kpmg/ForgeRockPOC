@@ -19,6 +19,39 @@ import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../global-state';
 import Redirect from '../Redirect';
 
+
+import kpmgLogo from "../../assets/KPMG_logo.png";
+import truuthLogo from "../../assets/truuth_logo.svg";
+
+const IdPMap = {
+  'localAuthentication': {
+    'logo': kpmgLogo,
+    'name': 'KPMG Local Authn',
+  },
+  'Biopass': {
+    'logo': truuthLogo,
+    'name': 'Biopass',
+  },
+};
+
+const IdPSelector = ({ callback }) => <>{
+  callback.payload.output
+  .find(({ name }) => name === 'providers')
+  .value
+  .map(({ provider }) =>
+    <ul>
+    <button class="btn btn-light w-100 text-start">
+    <>
+    <img width="48" src={IdPMap[provider].logo} alt={`${provider} logo`} />
+    {`Continue with ${IdPMap[provider].name}`}
+    </>
+    </button>
+    </ul>
+  )
+}</>
+;
+
+
 /**
  * @function Form - React component for managing the user authentication journey
  * @returns {Object} - React component object
@@ -74,6 +107,8 @@ export default function Form() {
             return <Password callback={cb} inputName={name} key='password' />;
           case 'RedirectCallback':
             return <Redirect callback={cb} key='redirect' />;
+          case 'SelectIdPCallback':
+            return <IdPSelector callback={cb} key='idp-selector' />;
           default:
            // If current callback is not supported, render a warning message
            return <Unknown callback={cb} key={`unknown-${idx}`} />;
